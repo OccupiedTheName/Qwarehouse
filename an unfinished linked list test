@@ -7,8 +7,6 @@ typedef struct node{
     struct node* next=NULL;
 }NODE;
 
-int size = sizeof(NODE);
-
 void del()
 {
 
@@ -17,7 +15,7 @@ void del()
 void insert(NODE **last_pointer,ELEMENTTYPE data)
 {
     NODE * p;
-    p=(NODE *)malloc(size);
+    p=(NODE *)malloc(sizeof(node));
     p->data=data;
     NODE *temp_pointer=*last_pointer;
     *last_pointer=&*p;
@@ -32,7 +30,7 @@ int search()
 NODE* creat(NODE **last_pointer,ELEMENTTYPE data)
 {
     NODE * p;
-    p=(NODE *)malloc(size);
+    p=(NODE *)malloc(sizeof(node));
     p->data=data;
     *last_pointer=&*p;
     return p->next;
@@ -49,7 +47,7 @@ int main() {
             int temp_data;
             NODE *temp_pointer;
             int count = 0;
-            printf("Input the element one by one");
+            printf("Input the element one by one\n");
             while (scanf("%d", &temp_data) != EOF) {
                 if (count == 0)
                     temp_pointer = creat(&first, temp_data);
@@ -61,9 +59,36 @@ int main() {
                 printf("Input complete\n");
             }
         }
-        else if (operation_code == 2 && first!=NULL) { }
+        else if (operation_code == 2 && first!=NULL) 
+        {
+            int count=0;
+            NODE *temp_pointer=first;
+            while(temp_pointer!=NULL)
+            {
+                printf("the %dth is %d\n",count,temp_pointer->data);
+                temp_pointer=temp_pointer->next;
+                count++;
+            }
+        }
         else if (operation_code == 3 && first!=NULL) { }
-        else if (operation_code == 4 && first!=NULL) { }
+        else if (operation_code == 4 && first!=NULL) 
+        {
+            printf("Input the position of the data that you want to find\n");
+            int position=-1;
+            scanf("%d",&position);
+            int count=0;
+            NODE *temp_pointer=first;
+            while(temp_pointer!=NULL)
+            {
+                if(count==position)
+                {
+                    printf("%d",temp_pointer->data);
+                    break;
+                }
+                temp_pointer=temp_pointer->next;
+                count++;
+            }
+        }
         else if (operation_code == 5 && first!=NULL) { }
         else if (operation_code == 6 && first!=NULL)
         {
@@ -71,9 +96,9 @@ int main() {
             int position=-1;
             int count=0;
             NODE*temp_pointer=first;
-            printf("Input the data you want insert");
+            printf("Input the data you want insert\n");
             scanf("%d",&insert_data);
-            printf("Input where you want insert the data");
+            printf("Input where you want insert the data\n");
             scanf("%d",&position);
 
             //go though the list
@@ -88,7 +113,7 @@ int main() {
                 count++;
             }
             if(temp_pointer==NULL)
-                printf("You goes too far");
+                printf("You goes too far\n");
         }
         else if (operation_code == 7 && first!=NULL) { }
         else if (operation_code == 8)
