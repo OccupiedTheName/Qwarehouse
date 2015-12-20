@@ -1,0 +1,100 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define ELEMENTTYPE int
+
+typedef struct node{
+    ELEMENTTYPE data;
+    struct node* next=NULL;
+}NODE;
+
+int size = sizeof(NODE);
+
+void del()
+{
+
+}
+
+void insert(NODE **last_pointer,ELEMENTTYPE data)
+{
+    NODE * p;
+    p=(NODE *)malloc(size);
+    p->data=data;
+    NODE *temp_pointer=*last_pointer;
+    *last_pointer=&*p;
+    p->next=temp_pointer;
+}
+
+int search()
+{
+
+}
+
+NODE* creat(NODE **last_pointer,ELEMENTTYPE data)
+{
+    NODE * p;
+    p=(NODE *)malloc(size);
+    p->data=data;
+    *last_pointer=&*p;
+    return p->next;
+}
+
+int main() {
+    int operation_code=0;
+    NODE *first=NULL;
+    while(1) {
+        printf("Please chose you operation.\nFor god's sake, Creat a list at first\n(1)Creat a linked list\n(2)Show the list\n(3)Delete an element\n(4)Show an element\n(5)Search\n(6)Insert an element\n(7)Clear the list\n(8)Exit\n");
+        scanf("%d", &operation_code);
+        if (operation_code == 1)
+        {
+            int temp_data;
+            NODE *temp_pointer;
+            int count = 0;
+            printf("Input the element one by one");
+            while (scanf("%d", &temp_data) != EOF) {
+                if (count == 0)
+                    temp_pointer = creat(&first, temp_data);
+                else
+                    temp_pointer = creat(&temp_pointer, temp_data);
+                count++;
+            }
+            if (scanf("%d", &temp_data) == EOF) {
+                printf("Input complete\n");
+            }
+        }
+        else if (operation_code == 2 && first!=NULL) { }
+        else if (operation_code == 3 && first!=NULL) { }
+        else if (operation_code == 4 && first!=NULL) { }
+        else if (operation_code == 5 && first!=NULL) { }
+        else if (operation_code == 6 && first!=NULL)
+        {
+            int insert_data;
+            int position=-1;
+            int count=0;
+            NODE*temp_pointer=first;
+            printf("Input the data you want insert");
+            scanf("%d",&insert_data);
+            printf("Input where you want insert the data");
+            scanf("%d",&position);
+
+            //go though the list
+            while(temp_pointer!=NULL)
+            {
+                temp_pointer=temp_pointer->next;
+                if(count==position)
+                {
+                    insert(&temp_pointer,insert_data);
+                    break;
+                }
+                count++;
+            }
+            if(temp_pointer==NULL)
+                printf("You goes too far");
+        }
+        else if (operation_code == 7 && first!=NULL) { }
+        else if (operation_code == 8)
+            break;
+        else
+            printf("be cute, chose again");
+    }
+    return 0;
+}
