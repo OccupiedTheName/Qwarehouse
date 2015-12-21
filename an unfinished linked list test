@@ -6,7 +6,8 @@ typedef struct node{
     ELEMENTTYPE data;
     struct node* next=NULL;
 }NODE;
-
+void del(node **);
+void insert(NODE **,ELEMENTTYPE data);
 void del(node **last_pointer)
 {
     NODE *temp_pointer=*last_pointer;
@@ -34,7 +35,10 @@ NODE* creat(NODE **last_pointer,ELEMENTTYPE data)
     NODE * p;
     p=(NODE *)malloc(sizeof(node));
     p->data=data;
+    p->next = NULL;
+
     *last_pointer=p;
+    printf("%p\n",*last_pointer);
     return p->next;
 }
 
@@ -49,9 +53,10 @@ int main() {
 
         if (operation_code == 1)
         {
-            int temp_data;
+            ELEMENTTYPE temp_data;
             NODE *temp_pointer;
             int count = 0;
+            printf("%p\n",first);
             printf("Input the size of list\n");
             scanf("%d",&count);
             printf("Input the element one by one\n");
@@ -62,7 +67,7 @@ int main() {
                     temp_pointer=creat(&first,temp_data);
                 else
                     temp_pointer=creat(&temp_pointer,temp_data);
-                printf("one cmplt");
+                printf("one cmplt\n");
             }
             printf("Input complete\n");
             /*while (scanf("%d", &temp_data)!=EOF)
@@ -82,11 +87,11 @@ int main() {
         {
             int count=0;
             NODE *temp_pointer=first;
-            while(temp_pointer!=NULL)
+            while(temp_pointer)
             {
                 printf("the %dth is %d\n",count,temp_pointer->data);
                 temp_pointer=temp_pointer->next;
-                printf("secc");
+                printf("secc\n");
                 count++;
             }
         }
@@ -133,7 +138,7 @@ int main() {
         else if (operation_code == 5 && first!=NULL) { }
         else if (operation_code == 6 && first!=NULL)
         {
-            int insert_data;
+            ELEMENTTYPE insert_data;
             int position=-1;
             int count=0;
             NODE*temp_pointer=first;
@@ -156,7 +161,22 @@ int main() {
             if(temp_pointer==NULL)
                 printf("You goes too far\n");
         }
-        else if (operation_code == 7 && first!=NULL) { }
+        else if (operation_code == 7 && first!=NULL)
+        {
+            int position=-1;
+            int count=0;
+            ELEMENTTYPE data;
+            NODE *temp_pointer=first;
+            printf("Which one do you want to edit?");
+            scanf("%d",&position);
+            printf("Input the data");
+            scanf("%d",&data);
+            for(count;count<position;count++)
+            {
+                temp_pointer=temp_pointer->next;
+            }
+            temp_pointer->data=data;
+        }
         else if (operation_code == 8)
             break;
         else
