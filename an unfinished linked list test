@@ -7,9 +7,11 @@ typedef struct node{
     struct node* next=NULL;
 }NODE;
 
-void del()
+void del(node **last_pointer)
 {
-
+    NODE *temp_pointer=*last_pointer;
+    *last_pointer=temp_pointer->next;
+    free(temp_pointer);
 }
 
 void insert(NODE **last_pointer,ELEMENTTYPE data)
@@ -32,7 +34,7 @@ NODE* creat(NODE **last_pointer,ELEMENTTYPE data)
     NODE * p;
     p=(NODE *)malloc(sizeof(node));
     p->data=data;
-    *last_pointer=&*p;
+    *last_pointer=p;
     return p->next;
 }
 
@@ -40,26 +42,43 @@ int main() {
     int operation_code=0;
     NODE *first=NULL;
     while(1) {
-        printf("Please chose you operation.\nFor god's sake, Creat a list at first\n(1)Creat a linked list\n(2)Show the list\n(3)Delete an element\n(4)Show an element\n(5)Search\n(6)Insert an element\n(7)Clear the list\n(8)Exit\n");
+        printf("Please chose you operation.\nFor god's sake, Creat a list at first\n(1)Creat a linked list\n(2)Show the list\n(3)Delete an element\n"
+                       "(4)Show an element\n(5)Search\n(6)Insert an element\n(7)Change an element data\n(8)Exit\n");
         scanf("%d", &operation_code);
+
+
         if (operation_code == 1)
         {
             int temp_data;
             NODE *temp_pointer;
             int count = 0;
+            printf("Input the size of list\n");
+            scanf("%d",&count);
             printf("Input the element one by one\n");
-            while (scanf("%d", &temp_data) != EOF) {
+            for(int i=0;i<count;i++)
+            {
+                scanf("%d",&temp_data);
+                if(i==0)
+                    temp_pointer=creat(&first,temp_data);
+                else
+                    temp_pointer=creat(&temp_pointer,temp_data);
+                printf("one cmplt");
+            }
+            printf("Input complete\n");
+            /*while (scanf("%d", &temp_data)!=EOF)
+            {
                 if (count == 0)
                     temp_pointer = creat(&first, temp_data);
                 else
                     temp_pointer = creat(&temp_pointer, temp_data);
                 count++;
             }
-            if (scanf("%d", &temp_data) == EOF) {
-                printf("Input complete\n");
-            }
+            printf("Complete\n");
+             */
         }
-        else if (operation_code == 2 && first!=NULL) 
+
+
+        else if (operation_code == 2 && first!=NULL)
         {
             int count=0;
             NODE *temp_pointer=first;
@@ -67,11 +86,33 @@ int main() {
             {
                 printf("the %dth is %d\n",count,temp_pointer->data);
                 temp_pointer=temp_pointer->next;
+                printf("secc");
                 count++;
             }
         }
-        else if (operation_code == 3 && first!=NULL) { }
-        else if (operation_code == 4 && first!=NULL) 
+
+        //Delete
+        else if (operation_code == 3 && first!=NULL)
+        {
+            int position =-1;
+            printf("Input the position of the data that you want to delete\n");
+            scanf("%d",&position);
+            int count = 0;
+            NODE *temp_pointer=first;
+            while(temp_pointer!=NULL)
+            {
+                if(count==position+1)
+                {
+                    del(&temp_pointer);
+                    break;
+                }
+                temp_pointer=temp_pointer->next;
+                count++;
+            }
+        }
+
+
+        else if (operation_code == 4 && first!=NULL)
         {
             printf("Input the position of the data that you want to find\n");
             int position=-1;
