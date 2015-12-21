@@ -6,8 +6,7 @@ typedef struct node{
     ELEMENTTYPE data;
     struct node* next=NULL;
 }NODE;
-void del(node **);
-void insert(NODE **,ELEMENTTYPE data);
+
 void del(node **last_pointer)
 {
     NODE *temp_pointer=*last_pointer;
@@ -25,10 +24,6 @@ void insert(NODE **last_pointer,ELEMENTTYPE data)
     p->next=temp_pointer;
 }
 
-int search()
-{
-
-}
 
 NODE* creat(NODE **last_pointer,ELEMENTTYPE data)
 {
@@ -82,7 +77,7 @@ int main() {
              */
         }
 
-
+        //Show the whole list
         else if (operation_code == 2 && first!=NULL)
         {
             int count=0;
@@ -116,7 +111,7 @@ int main() {
             }
         }
 
-
+        //Find an element
         else if (operation_code == 4 && first!=NULL)
         {
             printf("Input the position of the data that you want to find\n");
@@ -135,7 +130,24 @@ int main() {
                 count++;
             }
         }
-        else if (operation_code == 5 && first!=NULL) { }
+            
+        //Search
+        else if (operation_code == 5 && first!=NULL) 
+        {
+            int count=0;
+            ELEMENTTYPE search_data;
+            NODE*temp_pointer=first;
+            printf("Input the data you want search\n");
+            scanf("%d",&search_data);
+            while(temp_pointer)
+            {
+                if(temp_pointer->data==search_data)
+                    printf("%d",count);
+                count++;
+            }
+        }
+            
+        //Insert element
         else if (operation_code == 6 && first!=NULL)
         {
             ELEMENTTYPE insert_data;
@@ -161,6 +173,8 @@ int main() {
             if(temp_pointer==NULL)
                 printf("You goes too far\n");
         }
+            
+        //edit an element
         else if (operation_code == 7 && first!=NULL)
         {
             int position=-1;
@@ -177,6 +191,8 @@ int main() {
             }
             temp_pointer->data=data;
         }
+            
+        
         else if (operation_code == 8)
             break;
         else
