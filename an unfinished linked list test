@@ -16,25 +16,22 @@ void del(node **last_pointer)
 
 void insert(NODE **last_pointer,ELEMENTTYPE data)
 {
-    NODE * p;
+    NODE *p;
     p=(NODE *)malloc(sizeof(node));
     p->data=data;
-    NODE *temp_pointer=*last_pointer;
-    *last_pointer=&*p;
-    p->next=temp_pointer;
+    p->next=*last_pointer;
+    *last_pointer=p;
 }
 
 
-NODE* creat(NODE **last_pointer,ELEMENTTYPE data)
+NODE** creat(NODE **last_pointer,ELEMENTTYPE data)
 {
     NODE * p;
     p=(NODE *)malloc(sizeof(node));
     p->data=data;
     p->next = NULL;
-
     *last_pointer=p;
-    printf("%p\n",*last_pointer);
-    return p->next;
+    return &p->next;
 }
 
 int main() {
@@ -49,9 +46,8 @@ int main() {
         if (operation_code == 1)
         {
             ELEMENTTYPE temp_data;
-            NODE *temp_pointer;
+            NODE **temp_pointer=NULL;
             int count = 0;
-            printf("%p\n",first);
             printf("Input the size of list\n");
             scanf("%d",&count);
             printf("Input the element one by one\n");
@@ -61,8 +57,7 @@ int main() {
                 if(i==0)
                     temp_pointer=creat(&first,temp_data);
                 else
-                    temp_pointer=creat(&temp_pointer,temp_data);
-                printf("one cmplt\n");
+                    temp_pointer=creat(temp_pointer,temp_data);
             }
             printf("Input complete\n");
             /*while (scanf("%d", &temp_data)!=EOF)
@@ -86,27 +81,26 @@ int main() {
             {
                 printf("the %dth is %d\n",count,temp_pointer->data);
                 temp_pointer=temp_pointer->next;
-                printf("secc\n");
                 count++;
             }
         }
 
-        //Delete
+        //Delete : something wrong
         else if (operation_code == 3 && first!=NULL)
         {
             int position =-1;
             printf("Input the position of the data that you want to delete\n");
             scanf("%d",&position);
             int count = 0;
-            NODE *temp_pointer=first;
-            while(temp_pointer!=NULL)
+            NODE **temp_pointer=&first;
+            while((*temp_pointer)!=NULL)
             {
-                if(count==position+1)
+                if(count==position)
                 {
-                    del(&temp_pointer);
+                    del(temp_pointer);
                     break;
                 }
-                temp_pointer=temp_pointer->next;
+                *temp_pointer=(*temp_pointer)->next;
                 count++;
             }
         }
@@ -123,16 +117,16 @@ int main() {
             {
                 if(count==position)
                 {
-                    printf("%d",temp_pointer->data);
+                    printf("%d\n",temp_pointer->data);
                     break;
                 }
                 temp_pointer=temp_pointer->next;
                 count++;
             }
         }
-            
+
         //Search
-        else if (operation_code == 5 && first!=NULL) 
+        else if (operation_code == 5 && first!=NULL)
         {
             int count=0;
             ELEMENTTYPE search_data;
@@ -142,38 +136,39 @@ int main() {
             while(temp_pointer)
             {
                 if(temp_pointer->data==search_data)
-                    printf("%d",count);
+                    printf("The element is at %dth\n",count);
+                temp_pointer=temp_pointer->next;
                 count++;
             }
         }
-            
+
         //Insert element
         else if (operation_code == 6 && first!=NULL)
         {
             ELEMENTTYPE insert_data;
             int position=-1;
             int count=0;
-            NODE*temp_pointer=first;
+            NODE **temp_pointer=&first;
             printf("Input the data you want insert\n");
             scanf("%d",&insert_data);
             printf("Input where you want insert the data\n");
             scanf("%d",&position);
 
             //go though the list
-            while(temp_pointer!=NULL)
+            while((*temp_pointer)!=NULL)
             {
-                temp_pointer=temp_pointer->next;
                 if(count==position)
                 {
-                    insert(&temp_pointer,insert_data);
+                    insert(temp_pointer,insert_data);
                     break;
                 }
+                *temp_pointer=(*temp_pointer)->next;
                 count++;
             }
-            if(temp_pointer==NULL)
+            if(*temp_pointer==NULL)
                 printf("You goes too far\n");
         }
-            
+
         //edit an element
         else if (operation_code == 7 && first!=NULL)
         {
@@ -191,8 +186,8 @@ int main() {
             }
             temp_pointer->data=data;
         }
-            
-        
+
+
         else if (operation_code == 8)
             break;
         else
